@@ -3,11 +3,12 @@ const express = require('express')
 const UserService = require('./../services/user.service')
 const validatorHandler = require('./../middlewares/validator.handler')
 const { updateUserSchema, createUserSchema, getUserSchema } = require('./../schemas/user.schema')
+const passport = require('passport')
 
 const router = express.Router()
 const service = new UserService()
 
-router.get('/', async (req, res, next) => {
+router.get('/', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
   try {
     const users = await service.find()
     res.json(users)
