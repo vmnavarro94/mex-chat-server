@@ -17,15 +17,20 @@ router.get('/', passport.authenticate('jwt', { session: false }), async (req, re
   }
 })
 
-router.get('/:id', validatorHandler(getUserSchema, 'params'), async (req, res, next) => {
-  try {
-    const { id } = req.params
-    const user = await service.findOne(id)
-    res.json(user)
-  } catch (error) {
-    next(error)
+router.get(
+  '/:id',
+  validatorHandler(getUserSchema, 'params'),
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params
+      const user = await service.findOne(id)
+      res.json(user)
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
 
 router.post('/', validatorHandler(createUserSchema, 'body'), async (req, res, next) => {
   try {

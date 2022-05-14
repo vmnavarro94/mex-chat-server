@@ -19,7 +19,9 @@ class UserService {
     const user = await models.User.findOne({
       where: { email },
     })
-
+    if (!user) {
+      throw boom.notFound('User not found')
+    }
     return user
   }
 
@@ -43,5 +45,7 @@ class UserService {
     return { id }
   }
 }
+
+module.exports = UserService
 
 module.exports = UserService
