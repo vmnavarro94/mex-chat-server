@@ -9,7 +9,7 @@ const options = { usernameField: 'userName', passwordField: 'password' }
 
 const LocalStrategy = new Strategy(options, async (email, password, done) => {
   try {
-    const user = await service.findByEmail(email)
+    const user = await service.findByEmail(email, 'allProperties')
     if (user) {
       const isMatch = await bcrypt.compare(password, user.password)
       delete user.dataValues.password

@@ -38,6 +38,16 @@ class User extends Model {
       tableName: USER_TABLE,
       modelName: 'User',
       timestamps: false,
+      defaultScope: {
+        attributes: {
+          exclude: ['password'],
+        },
+      },
+      scopes: {
+        allProperties: {
+          attributes: ['id', 'email', 'password'],
+        },
+      },
       hooks: {
         beforeCreate: async (user) => {
           const password = await bcrypt.hash(user.password, 10)
@@ -45,8 +55,8 @@ class User extends Model {
         },
         afterCreate: (user) => {
           delete user.dataValues.password
-        }
-      }
+        },
+      },
     }
   }
 }

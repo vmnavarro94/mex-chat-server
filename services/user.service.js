@@ -5,8 +5,8 @@ const { models } = require('../libs/sequelize')
 class UserService {
   constructor() {}
 
-  async create(data) {
-    const newUser = await models.User.create(data)
+  async create(data, scope = 'defaultScope') {
+    const newUser = await models.User.scope(scope).create(data)
     return newUser
   }
 
@@ -15,8 +15,8 @@ class UserService {
     return users
   }
 
-  async findByEmail(email) {
-    const user = await models.User.findOne({
+  async findByEmail(email, scope = 'defaultScope') {
+    const user = await models.User.scope(scope).findOne({
       where: { email },
     })
     if (!user) {
@@ -25,16 +25,16 @@ class UserService {
     return user
   }
 
-  async findOne(id) {
-    const user = await models.User.findByPk(id)
+  async findOne(id, scope = 'defaultScope') {
+    const user = await models.User.scope(scope).findByPk(id)
     if (!user) {
       throw boom.notFound('User not found')
     }
     return user
   }
 
-  async update(id, changes) {
-    const user = await this.findOne(id)
+  async update(id, changes, scope = 'defaultScope') {
+    const user = await this.findOne(id, scope)
     const response = await user.update(changes)
     return response
   }
