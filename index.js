@@ -3,7 +3,6 @@ const http = require('http')
 const cors = require('cors')
 const passport = require('passport')
 const routerApi = require('./routes')
-const { checkApiKey } = require('./middlewares/auth.handler')
 
 const {
   logErrors,
