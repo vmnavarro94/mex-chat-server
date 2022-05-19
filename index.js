@@ -3,6 +3,7 @@ const http = require('http')
 const cors = require('cors')
 const passport = require('passport')
 const routerApi = require('./routes')
+const WebSockets = require('./services/wss.service')
 
 const {
   logErrors,
@@ -33,3 +34,7 @@ app.use(errorHandler)
 
 const httpServer = http.createServer(app)
 httpServer.listen(port)
+
+httpServer.on('listening', () => {
+  WebSockets.init(httpServer)
+})
