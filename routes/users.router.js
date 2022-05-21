@@ -8,7 +8,7 @@ const passport = require('passport')
 const router = express.Router()
 const service = new UserService()
 
-router.get('/', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
+router.get('/', passport.authenticate('jwt', { session: false }), async (_req, res, next) => {
   try {
     const users = await service.find()
     res.json(users)
@@ -19,8 +19,8 @@ router.get('/', passport.authenticate('jwt', { session: false }), async (req, re
 
 router.get(
   '/:id',
-  validatorHandler(getUserSchema, 'params'),
   passport.authenticate('jwt', { session: false }),
+  validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params
@@ -32,18 +32,24 @@ router.get(
   }
 )
 
-router.post('/', validatorHandler(createUserSchema, 'body'), async (req, res, next) => {
-  try {
-    const body = req.body
-    const newUser = await service.create(body)
-    res.status(201).json(newUser)
-  } catch (error) {
-    next(error)
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  validatorHandler(createUserSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body
+      const newUser = await service.create(body)
+      res.status(201).json(newUser)
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
 
 router.patch(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getUserSchema, 'params'),
   validatorHandler(updateUserSchema, 'body'),
   async (req, res, next) => {
@@ -58,14 +64,19 @@ router.patch(
   }
 )
 
-router.delete('/:id', validatorHandler(getUserSchema, 'params'), async (req, res, next) => {
-  try {
-    const { id } = req.params
-    await service.delete(id)
-    res.status(201).json({ id })
-  } catch (error) {
-    next(error)
+router.delete(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  validatorHandler(getUserSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params
+      await service.delete(id)
+      res.status(201).json({ id })
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
 
 module.exports = router

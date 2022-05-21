@@ -15,4 +15,9 @@ const verifyRequestAuth = (token) => {
   return null
 }
 
-module.exports = { verifyRequestAuth }
+const extractIdFromJwt = (authorization) => {
+  const token = authorization.split(' ')[1]
+  return verifyRequestAuth(token)
+}
+
+module.exports = { verifyRequestAuth, extractIdFromJwt }

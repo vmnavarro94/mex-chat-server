@@ -20,7 +20,7 @@ app.use(cors())
 
 require('./utils/auth')
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.send('Chat Server API')
 })
 
