@@ -50,7 +50,10 @@ class WebSockets {
           msgData.messageId = uuid()
           // Send message to Recipient Connection and the sender as well.
           WebSockets.connections.map((connection) => {
-            if ((connection.userId = msgData.receiverId || connection.userId == msgData.senderId)) {
+            if (
+              (connection.userId =
+                msgData.receiverId || connection.userId == msgData.senderId)
+            ) {
               connection.send(JSON.stringify(msgData))
             }
           })

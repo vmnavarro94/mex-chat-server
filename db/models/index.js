@@ -1,6 +1,9 @@
 const { User, UserSchema } = require('./user.model')
 const { Profile, ProfileSchema } = require('./profile.model')
-const { ProfileContact, ProfileContactSchema } = require('./profile-contact.model')
+const {
+  ProfileContact,
+  ProfileContactSchema,
+} = require('./profile-contact.model')
 
 const setupModels = (sequelize) => {
   // inits

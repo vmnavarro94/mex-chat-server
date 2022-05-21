@@ -5,7 +5,7 @@ const { config } = require('../config/config')
 const checkApiKey = (req, _res, next) => {
   const apiKey = req.headers['api']
 
-  if (apiKey === config.apiKey) { 
+  if (apiKey === config.apiKey) {
     next()
   } else {
     next(boom.unauthorized())

@@ -14,14 +14,18 @@ const { extractIdFromJwt } = require('../utils/auth/JwtAuth')
 const router = express.Router()
 const service = new ProfileService()
 
-router.get('/', passport.authenticate('jwt', { session: false }), async (_req, res, next) => {
-  try {
-    const profiles = await service.find()
-    res.json(profiles)
-  } catch (error) {
-    next(error)
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  async (_req, res, next) => {
+    try {
+      const profiles = await service.find()
+      res.json(profiles)
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
 
 router.get(
   '/contacts',
@@ -52,15 +56,19 @@ router.get(
   }
 )
 
-router.post('/', validatorHandler(createProfileSchema, 'body'), async (req, res, next) => {
-  try {
-    const body = req.body
-    const newProfile = await service.create(body)
-    res.status(201).json(newProfile)
-  } catch (error) {
-    next(error)
+router.post(
+  '/',
+  validatorHandler(createProfileSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body
+      const newProfile = await service.create(body)
+      res.status(201).json(newProfile)
+    } catch (error) {
+      next(error)
+    }
   }
-})
+)
 
 router.post(
   '/contacts',

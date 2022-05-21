@@ -6,7 +6,9 @@ class ProfileService {
   constructor() {}
 
   async create(profile, scope = 'defaultScope') {
-    const newProfile = await models.Profile.scope(scope).create(profile, { include: ['user'] })
+    const newProfile = await models.Profile.scope(scope).create(profile, {
+      include: ['user'],
+    })
     return newProfile
   }
 
@@ -26,7 +28,9 @@ class ProfileService {
   }
 
   async findOne(id, scope = 'defaultScope') {
-    const profile = await models.Profile.scope(scope).findByPk(id, { include: ['user'] })
+    const profile = await models.Profile.scope(scope).findByPk(id, {
+      include: ['user'],
+    })
     if (!profile) {
       throw boom.notFound('Profile not found')
     }
