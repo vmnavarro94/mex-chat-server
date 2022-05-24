@@ -38,10 +38,10 @@ class ProfileService {
   }
 
   async findByUserId(id, scope = 'defaultScope') {
-    const profile = await models.Profile.scope(scope).findOne(
-      { include: ['user'] },
-      { where: { userId: id } }
-    )
+    const profile = await models.Profile.scope(scope).findOne({
+      where: { userId: id },
+      include: ['user'],
+    })
     if (!profile) {
       throw boom.notFound('Profile not found')
     }
